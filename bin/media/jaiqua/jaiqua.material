@@ -1,0 +1,24 @@
+material jaiqua
+{
+	technique
+	{
+		pass
+		{
+			shading phong
+			ambient 0.0 0.0 0.0 1
+			diffuse 2 2 2 1
+			specular 1.0 1.0 1.0 11.776
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture blue_jaiqua.tga
+				tex_coord_set 0
+				colour_op modulate
+				scale 1 1
+				scroll 0 0
+				rotate 0
+			}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+material 桃花男_02_头发
+{
+	technique
+	{
+		pass 
+		{
+			scene_blend alpha_blend
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture 桃花男_02_头发.tga
+			}
+		}
+
+	}
+
+}
+
+
+material 桃花男_02_头发  : premierBaseTemplate
+{
+      set_texture_alias <baseTexture> 桃花男_02_头发.TGA 
+}

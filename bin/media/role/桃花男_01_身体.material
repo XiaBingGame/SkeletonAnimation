@@ -1,0 +1,19 @@
+
+material 桃花男_01_身体
+{
+	technique
+	{
+		pass 
+		{
+			scene_blend alpha_blend
+			alpha_rejection greater 128
+
+			texture_unit
+			{
+				texture 桃花男_01_身体.tga
+			}
+		}
+
+	}
+
+}

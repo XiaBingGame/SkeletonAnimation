@@ -1,0 +1,4 @@
+material 桃花男_01_双手  : premierBaseTemplate
+{
+      set_texture_alias <baseTexture> 桃花男_01_双手.TGA 
+}

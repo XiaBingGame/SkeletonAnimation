@@ -1,0 +1,17 @@
+material 桃花男_02_双手
+{    
+    technique
+    {
+        pass
+        {
+            emissive 0.4 0.4 0.4
+		    alpha_rejection greater 128
+
+            texture_unit
+            {
+                texture 桃花男_02_双手.TGA 
+            }
+        }
+    }
+}
+

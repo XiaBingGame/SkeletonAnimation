@@ -1,0 +1,15 @@
+material ÄÐÖ÷½Ç_¼¦µ°Á³_01
+{
+	technique
+	{
+		pass 
+		{
+			texture_unit
+			{
+				texture ÄÐÖ÷½Ç_¼¦µ°Á³_01.TGA
+			}
+		}
+
+	}
+
+}

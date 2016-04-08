@@ -1,0 +1,17 @@
+
+material ÌÒ»¨ÄÐ_01_Ë«½Å
+{
+	technique
+	{
+		pass 
+		{
+
+			texture_unit
+			{
+				texture ÌÒ»¨ÄÐ_01_Ë«½Å.tga
+			}
+		}
+
+	}
+
+}
