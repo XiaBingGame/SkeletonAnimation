@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "OpenGLApp.h"
 #include "memory.h"
+#include "texture.h"
 extern "C" {
 #include "jpeglib/jpeglib.h"
 }

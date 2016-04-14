@@ -114,7 +114,7 @@ public:
 	~Mesh();
 
 	/** 改变当前动画.. */
-	void changeAnim();
+	void changeAnim(bool bInc = true);
 	void changeLod();
 	void changePaused() { mbPause = !mbPause; }
 

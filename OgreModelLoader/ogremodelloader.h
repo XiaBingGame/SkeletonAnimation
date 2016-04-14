@@ -2,7 +2,7 @@
 #define __TEMPLATE_APP_HEADER_H__
 
 #include "OpenGLApp.h"
-
+#include <vector>
 class Mesh;
 
 /** Class */
@@ -26,6 +26,8 @@ public:
 	/// ‰÷»æ
 	void render(double t);
 
+	virtual void onMouseButton(int button, int action, int mods);
+
 private:
 	GLuint      program;		/// ≥Ã–Ú∂‘œÛ
 	GLuint		skeletonProgram;
@@ -39,8 +41,13 @@ private:
 	GLuint		skeleton_mv_location;
 	GLuint		skeleton_proj_location;
 	GLuint		skeleton_bonemat_location;
+	GLuint		uiProgram;
 
+	bool		bLeftPressed;
+	bool		bRightPressed;
 	Mesh*		mMesh;
+	int			mModelIndex;
+	std::vector<Mesh*> mMeshes;
 };
 
 

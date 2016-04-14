@@ -161,11 +161,18 @@ void Mesh::init()
 	glGenVertexArrays(1, &mCubeVAO);
 }
 
-void Mesh::changeAnim()
+void Mesh::changeAnim(bool binc)
 {
 	if(mAnimation.animations.size() > 0)
 	{
-		mAnimIndex = (mAnimIndex + 1) % mAnimation.animations.size();
+		if(binc)
+			mAnimIndex = (mAnimIndex + 1) % mAnimation.animations.size();
+		else
+		{
+			mAnimIndex--;
+			if(mAnimIndex < 0)
+				mAnimIndex = mAnimation.animations.size() - 1;
+		}
 		mAnimation.SetPose(mAnimIndex, 0.0);
 		mAnimTime = 0.0;
 		mAnimLength = mAnimation.animations[mAnimIndex].timeLength;

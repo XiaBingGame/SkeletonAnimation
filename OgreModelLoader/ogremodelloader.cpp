@@ -15,18 +15,29 @@ void model_loader_app::init()
 	memcpy(info.title, title, sizeof(title));
 
 	mMesh = 0;
+	bLeftPressed = false;
+	bRightPressed = false;
 }
 
 void model_loader_app::startup(void)
 {
 	program = LoadShadersVF("../media/glsl/glsl.vs", "../media/glsl/glsl.fs");
 	skeletonProgram = LoadShadersVF("../media/glsl/skeleton.vs", "../media/glsl/skeleton.fs");
-	//mMesh = new Mesh("../media/halo/halo.material", "../media/halo/halo.mesh.xml", program, "../media/halo/halo.skeleton.xml");
-	//mMesh = new Mesh("../media/jaiqua/jaiqua.material", "../media/jaiqua/jaiqua.mesh.xml", program, "../media/jaiqua/jaiqua.skeleton.xml");
-	//mMesh = new Mesh("../media/sinbad/sinbad.material", "../media/sinbad/sinbad.mesh.xml", program, "../media/sinbad/sinbad.skeleton.xml");
-	//mMesh = new Mesh("../media/role/桃花男_02_身体.material", "../media/role/body.mesh.xml", program, "../media/role/role.Skeleton.xml");
-	//mMesh = new Mesh("../media/role/桃花男_01_身体.material", "../media/role/body.mesh.xml", program);
-	mMesh = new Mesh("test load tlbb model", program);
+	uiProgram = LoadShadersVF("../media/glsl/ui.vs", "../media/glsl/ui.fs");
+	//Mesh* m = new Mesh("../media/halo/halo.material", "../media/halo/halo.mesh.xml", program, "../media/halo/halo.skeleton.xml");
+	//mMeshes.push_back(m);
+	Mesh* m = new Mesh("../media/jaiqua/jaiqua.material", "../media/jaiqua/jaiqua.mesh.xml", program, "../media/jaiqua/jaiqua.skeleton.xml");
+	mMeshes.push_back(m);
+	m = new Mesh("../media/sinbad/sinbad.material", "../media/sinbad/sinbad.mesh.xml", program, "../media/sinbad/sinbad.skeleton.xml");
+	mMeshes.push_back(m);
+	//m = new Mesh("../media/role/桃花男_02_身体.material", "../media/role/body.mesh.xml", program, "../media/role/role.Skeleton.xml");
+	//mMeshes.push_back(m);
+	//m = new Mesh("../media/role/桃花男_01_身体.material", "../media/role/body.mesh.xml", program);
+	//mMeshes.push_back(m);
+	m = new Mesh("test load tlbb model", program);
+	mMeshes.push_back(m);
+	mMesh = m;
+	mModelIndex = mMeshes.size() - 1;
 	
 	mv_location = glGetUniformLocation(program, "mv_matrix");
 	proj_location = glGetUniformLocation(program, "proj_matrix");
@@ -57,8 +68,11 @@ void model_loader_app::shutdown(void)
 	glDeleteProgram(program);
 	glDeleteVertexArrays(1, &vao);
 
-	if(mMesh)
-		delete mMesh;
+	for (int i = 0; i < mMeshes.size(); i++)
+	{
+		delete mMeshes[i];
+	}
+	mMeshes.clear();
 }
 
 void model_loader_app::onKey(int key, int scancode, int action, int mods)
@@ -69,7 +83,8 @@ void model_loader_app::onKey(int key, int scancode, int action, int mods)
 		bPressed = true;
 		if(key == GLFW_KEY_SPACE)
 		{
-			mMesh->changeAnim();
+			mModelIndex = (mModelIndex+1) % mMeshes.size();
+			mMesh = mMeshes[mModelIndex];
 		}
 		else if(key == GLFW_KEY_L)
 		{
@@ -125,5 +140,41 @@ void model_loader_app::render(double t)
 		mMesh->draw(t);
 		bool bSkeleton = true;
 	}
-	
+
+	glUseProgram(uiProgram);
+	glUniform1i(glGetUniformLocation(uiProgram, "bleftpressed"), bLeftPressed ? 1:0);
+	glUniform1i(glGetUniformLocation(uiProgram, "brightpressed"), bRightPressed?1:0);
+	glDrawArrays(GL_TRIANGLES, 0, 30);
+}
+
+void model_loader_app::onMouseButton(int button, int action, int mods)
+{
+	OpenGLApp::onMouseButton(button, action, mods);
+	float x = getCursorX();
+	float y = info.windowHeight - getCursorY();
+
+	x = (x/(float)info.windowWidth - 0.5) * 2.0;
+	y = (y/(float)info.windowHeight - 0.5) * 2.0;
+	if(action == GLFW_PRESS)
+	{
+		if(x>=0.2 && x <=0.45 && y >= -0.9 && y < -0.75)
+		{
+			bRightPressed = true;
+		}
+		if(x<=-0.2 && x >=-0.45 && y >= -0.9 && y < -0.75)
+		{
+			bLeftPressed = true;
+		}
+	}
+	else
+	{
+		if(bLeftPressed)
+		{
+			mMesh->changeAnim(false);
+		}
+		if(bRightPressed)
+			mMesh->changeAnim();
+		bLeftPressed = false;
+		bRightPressed = false;
+	}
 }
