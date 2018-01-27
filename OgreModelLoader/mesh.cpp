@@ -226,7 +226,7 @@ void Mesh::buildGeometry()
 	*/
 	
 	mViewPos = -(mMinPos + mMaxPos)/2.0f;
-	mViewPos.z = -glm::max<float>((mMaxPos.y - mMinPos.y), ((mMaxPos.z-mMinPos.z)/2.0));
+	mViewPos.z = -glm::max<float>((mMaxPos.y - mMinPos.y), ((mMaxPos.z-mMinPos.z)/2.0))*0.5;
 
 	glm::vec3 VertexInfo::* ptr = &VertexInfo::normal;
 	int offset = reinterpret_cast<int>(*(void**)(&ptr));

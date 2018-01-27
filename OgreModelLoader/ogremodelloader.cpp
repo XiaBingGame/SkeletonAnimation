@@ -24,9 +24,9 @@ void model_loader_app::startup(void)
 	program = LoadShadersVF("../media/glsl/glsl.vs", "../media/glsl/glsl.fs");
 	skeletonProgram = LoadShadersVF("../media/glsl/skeleton.vs", "../media/glsl/skeleton.fs");
 	uiProgram = LoadShadersVF("../media/glsl/ui.vs", "../media/glsl/ui.fs");
-	//Mesh* m = new Mesh("../media/halo/halo.material", "../media/halo/halo.mesh.xml", program, "../media/halo/halo.skeleton.xml");
-	//mMeshes.push_back(m);
-	Mesh* m = new Mesh("../media/jaiqua/jaiqua.material", "../media/jaiqua/jaiqua.mesh.xml", program, "../media/jaiqua/jaiqua.skeleton.xml");
+	Mesh* m = new Mesh("../media/halo/halo.material", "../media/halo/halo.mesh.xml", program, "../media/halo/halo.skeleton.xml");
+	mMeshes.push_back(m);
+	m = new Mesh("../media/jaiqua/jaiqua.material", "../media/jaiqua/jaiqua.mesh.xml", program, "../media/jaiqua/jaiqua.skeleton.xml");
 	mMeshes.push_back(m);
 	m = new Mesh("../media/sinbad/sinbad.material", "../media/sinbad/sinbad.mesh.xml", program, "../media/sinbad/sinbad.skeleton.xml");
 	mMeshes.push_back(m);
