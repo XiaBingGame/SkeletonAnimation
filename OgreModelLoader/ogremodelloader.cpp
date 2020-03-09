@@ -26,7 +26,10 @@ void model_loader_app::startup(void)
 	reloadShader();
 	skeletonProgram = LoadShadersVF("../media/glsl/skeleton.vs", "../media/glsl/skeleton.fs");
 	uiProgram = LoadShadersVF("../media/glsl/ui.vs", "../media/glsl/ui.fs");
+<<<<<<< HEAD
 	/*
+=======
+>>>>>>> bf43c8f5abcb84f96868cec3450f1f6c1c507e04
 	Mesh* m = new Mesh("../media/halo/halo.material", "../media/halo/halo.mesh.xml", program, "../media/halo/halo.skeleton.xml");
 	mMeshes.push_back(m);
 	m = new Mesh("../media/jaiqua/jaiqua.material", "../media/jaiqua/jaiqua.mesh.xml", program, "../media/jaiqua/jaiqua.skeleton.xml");
