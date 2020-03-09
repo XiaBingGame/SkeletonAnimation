@@ -47,13 +47,19 @@ Mesh::Mesh(char* tlbbobjectfilename, unsigned int program)
 	, mCurrentLod(0)
 {
 	mProgram = program;
-	mSkinLoc = glGetUniformLocation(mProgram, "use_skin");
-	mBoneMatLoc = glGetUniformLocation(mProgram, "bone_mat");
 
+	setProgram(program);
 	init();
 
 	LoadObjXML(tlbbobjectfilename);
 	buildGeometry();
+}
+
+void Mesh::setProgram(unsigned int program)
+{
+	mSkinLoc = glGetUniformLocation(mProgram, "use_skin");
+	mFirstLoc = glGetUniformLocation(mProgram, "bFirst");
+	mBoneMatLoc = glGetUniformLocation(mProgram, "bone_mat");
 }
 
 void Mesh::LoadObjXML(char* name_object)
@@ -100,10 +106,23 @@ void Mesh::LoadObjXML(char* name_object)
 	lod_meshes.clear();
 	vertices.clear();
 	materials.clear();
-
+	
+	bool bFirstLoad = true;
 	while(lodIt != objContainer.end())
 	{
 		ObjectSubEntity obj = *lodIt;
+		// 天龙八部的模型
+		// 头发部分需要修正
+		if(bFirstLoad)
+		{
+			for (int i = 0; i < obj.vertices.size(); i++)
+			{
+				obj.vertices[i].position[0] += 14.0;
+				obj.vertices[i].position[1] += 15.0;
+				obj.vertices[i].position[2] -= 11.0;
+			}
+		}
+
 		vertices.insert(vertices.end(), obj.vertices.begin(), obj.vertices.end());
 		materials.insert(materials.end(), obj.materials.begin(), obj.materials.end());
 
@@ -130,6 +149,8 @@ void Mesh::LoadObjXML(char* name_object)
 		cur_vertex_start += obj.vertices.size();
 		cur_material_start += obj.materials.size();
 		lodIt++;
+
+		bFirstLoad = false;
 	}
 }
 
@@ -226,7 +247,7 @@ void Mesh::buildGeometry()
 	*/
 	
 	mViewPos = -(mMinPos + mMaxPos)/2.0f;
-	mViewPos.z = -glm::max<float>((mMaxPos.y - mMinPos.y), ((mMaxPos.z-mMinPos.z)/2.0));
+	mViewPos.z = -glm::max<float>((mMaxPos.y - mMinPos.y), ((mMaxPos.z-mMinPos.z)/2.0))*0.5;
 
 	glm::vec3 VertexInfo::* ptr = &VertexInfo::normal;
 	int offset = reinterpret_cast<int>(*(void**)(&ptr));
@@ -322,7 +343,6 @@ void Mesh::buildGeometry()
 
 void Mesh::draw(double t, unsigned int program, bool bSkeleton)
 {
-	//return;
 	static double current_t = t;
 	static glm::mat4 bonemat[100];
 
@@ -333,8 +353,6 @@ void Mesh::draw(double t, unsigned int program, bool bSkeleton)
 
 	glUniform1i(mSkinLoc, mbSkin ? 1 : 0);
 
-	//mbSkin = false;
-	
 	if(mbSkin)
 	{	
 		if(!mbPause)
@@ -351,7 +369,7 @@ void Mesh::draw(double t, unsigned int program, bool bSkeleton)
 		{
 			for (int i = 0; i < mAnimation.bones.size(); i++)
 			{
-				bonemat[i] =  mAnimation.bones[i].matrix * mAnimation.bones[i].invbindmatrix;
+				bonemat[i] = mAnimation.bones[i].matrix * mAnimation.bones[i].invbindmatrix;		
 			}
 			glUniformMatrix4fv(mBoneMatLoc, mAnimation.bones.size(), false, glm::value_ptr(bonemat[0]));
 		}
@@ -379,7 +397,6 @@ void Mesh::draw(double t, unsigned int program, bool bSkeleton)
 			}
 			
 		}	
-		//glDrawArrays(GL_POINTS, 0, 1);
 		return;
 	}
 	
@@ -404,8 +421,7 @@ void Mesh::draw(double t, unsigned int program, bool bSkeleton)
 				glBindTexture(GL_TEXTURE_2D, m.ambient_map.gl_handle);
 				glEnable(GL_TEXTURE_2D);
 			}
-			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			//glPointSize(2.0);
+
 			glDrawElements(GL_TRIANGLES, lod_meshes[mCurrentLod].m_subEntity[i].count, GL_UNSIGNED_INT, (void*)((lod_meshes[mCurrentLod].start + lod_meshes[mCurrentLod].m_subEntity[i].start)*sizeof(unsigned int)));
 		}
 	}

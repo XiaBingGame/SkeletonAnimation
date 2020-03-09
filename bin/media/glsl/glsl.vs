@@ -42,7 +42,9 @@ void main(void)
 	}
 	
 	mat4 mat = mv_matrix * animMat;
-    vec4 P = mat * position;
+	vec4 pos = position;
+
+    vec4 P = mat * pos;
     vs_out.N = mat3(mat) * normal;
 
     // Calculate light vector

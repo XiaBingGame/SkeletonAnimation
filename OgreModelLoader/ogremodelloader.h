@@ -29,6 +29,7 @@ public:
 	virtual void onMouseButton(int button, int action, int mods);
 
 private:
+	void reloadShader();
 	GLuint      program;		/// 程序对象
 	GLuint		skeletonProgram;
 	GLuint      vao;			/// 顶点数组对象
@@ -45,8 +46,10 @@ private:
 
 	bool		bLeftPressed;
 	bool		bRightPressed;
+	bool		bPaused;
 	Mesh*		mMesh;
 	int			mModelIndex;
+	float		m_yRot;
 	std::vector<Mesh*> mMeshes;
 };
 

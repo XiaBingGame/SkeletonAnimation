@@ -125,6 +125,7 @@ public:
 	void draw(double t, unsigned int program = 0, bool bSkeleton = false);	/// 绘制.
 	glm::vec3 getViewPos() { return mViewPos; }
 	glm::vec3 getSize() { return mMaxPos - mMinPos; }
+	void setProgram(unsigned int program);
 private:
 	void init();		/// 初始化
 	void LoadOgreXML(const char* name_material, const char* name_mesh);	/// 加载 材质文件和mesh文件
@@ -148,6 +149,7 @@ private:
 	unsigned int mCubeVAO;
 
 	unsigned int mSkinLoc;
+	unsigned int mFirstLoc;
 	unsigned int mBoneMatLoc;
 
 

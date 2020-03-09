@@ -16,9 +16,6 @@ typedef float mmat4[16];
 typedef float mvec3[3];
 typedef float mvec4[4];
 
-OPENGLAPPDLL_API void mat4copy(mmat4 m, glm::mat4 gm);
-OPENGLAPPDLL_API void vec3copy(mvec3 v, glm::vec3 gv);
-OPENGLAPPDLL_API void vec4copy(mvec4 v, glm::vec4 gv);
 
 OPENGLAPPDLL_API GLuint LoadShadersV(const char * vertex_file_path);
 OPENGLAPPDLL_API GLuint LoadShadersVF(const char * vertex_file_path,const char * fragment_file_path);
